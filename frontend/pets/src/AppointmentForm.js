@@ -35,6 +35,7 @@ function AppointmentForm({ onAdd }) {
         <input
           type="date"
           value={startDate}
+          min="today"
           onChange={(e) => setStartDate(e.target.value)}
           required
         />
@@ -44,6 +45,7 @@ function AppointmentForm({ onAdd }) {
         <input
           type="date"
           value={endDate}
+          min="today"
           onChange={(e) => setEndDate(e.target.value)}
           required
         />

@@ -16,12 +16,12 @@ public class AppointmentService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    // Create new appointment
+    // create new appointment
     public Appointment createAppointment(Appointment appointment) {
         return appointmentRepository.save(appointment);
     }
 
-    // Update appointment dates
+    // update appointment dates
     public Optional<Appointment> updateAppointmentDates(Long id, String newStart, String newEnd) {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
 
@@ -35,13 +35,18 @@ public class AppointmentService {
         return Optional.empty();
     }
 
-    // View appointment by ID
+    // view appointment by ID
     public Optional<Appointment> getAppointment(Long id) {
         return appointmentRepository.findById(id);
     }
 
-    // View all appointments
+    // view all appointments
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
+    }
+
+    // delete appointment
+    public void deleteAppointment(Long id) {
+        appointmentRepository.deleteById(id);
     }
 }

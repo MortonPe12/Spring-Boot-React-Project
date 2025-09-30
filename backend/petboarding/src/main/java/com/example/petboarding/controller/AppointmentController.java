@@ -18,13 +18,13 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    // Create appointment
+    // create appointment
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
         return ResponseEntity.ok(appointmentService.createAppointment(appointment));
     }
 
-    // Update appointment dates
+    // update appointment dates
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointmentDates(
             @PathVariable Long id,
@@ -35,7 +35,7 @@ public class AppointmentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // View single appointment
+    // view single appointment
     @GetMapping("/{id}")
     public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {
         return appointmentService.getAppointment(id)
@@ -43,9 +43,21 @@ public class AppointmentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // View all appointments
+    // view all appointments
     @GetMapping
     public List<Appointment> getAllAppointments() {
         return appointmentService.getAllAppointments();
     }
+
+    // delete appointment
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
+        if (appointmentService.getAppointment(id).isPresent()) {
+            appointmentService.deleteAppointment(id);
+            return ResponseEntity.noContent().build(); // 204
+        } else {
+            return ResponseEntity.notFound().build(); // 404
+        }
+    }
+
 }

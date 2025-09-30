@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import AppointmentForm from "./components/AppointmentForm";
-import AppointmentList from "./components/AppointmentList";
+import AppointmentForm from "./AppointmentForm";
+import AppointmentList from "./AppointmentList";
+
 
 function App() {
   const [appointments, setAppointments] = useState([]);
@@ -36,13 +37,27 @@ function App() {
     }
   };
 
+  // Delete appointment
+  const deleteAppointment = async (id) => {
+    try {
+      await fetch(`http://localhost:8080/appointments/${id}`, {
+        method: "DELETE",
+      });
+      setAppointments(appointments.filter((appt) => appt.id !== id));
+    } catch (error) {
+      console.error("Error deleting appointment:", error);
+    }
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Pet Boarding Appointments</h1>
       <AppointmentForm onAdd={addAppointment} />
       <AppointmentList appointments={appointments} />
+      <AppointmentList appointments={appointments} onDelete={deleteAppointment} />
     </div>
   );
+
 }
 
 export default App;
