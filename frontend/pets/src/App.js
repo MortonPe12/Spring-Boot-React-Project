@@ -6,10 +6,20 @@ import AppointmentList from "./AppointmentList";
 function App() {
   const [appointments, setAppointments] = useState([]);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/appointments`)
+      .then(res => res.json())
+      .then(data => setAppointments(data))
+      .catch(err => console.error(err));
+  }, [API_BASE_URL]);
+
+
   // Fetch all appointments from backend
   const fetchAppointments = async () => {
     try {
-      const response = await fetch("http://localhost:8080/appointments");
+      const response = await fetch("http://3.144.149.119:8080/appointments");
       const data = await response.json();
       setAppointments(data);
     } catch (error) {
@@ -25,7 +35,7 @@ function App() {
   // Add appointment (called from form)
   const addAppointment = async (appointment) => {
     try {
-      const response = await fetch("http://localhost:8080/appointments", {
+      const response = await fetch("http://3.144.149.119:8080/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointment),
@@ -40,7 +50,7 @@ function App() {
   // Delete appointment
   const deleteAppointment = async (id) => {
     try {
-      await fetch(`http://localhost:8080/appointments/${id}`, {
+      await fetch(`http://3.144.149.119:8080/appointments/${id}`, {
         method: "DELETE",
       });
       setAppointments(appointments.filter((appt) => appt.id !== id));
@@ -53,7 +63,6 @@ function App() {
     <div style={{ padding: "20px" }}>
       <h1>Pet Boarding Appointments</h1>
       <AppointmentForm onAdd={addAppointment} />
-      <AppointmentList appointments={appointments} />
       <AppointmentList appointments={appointments} onDelete={deleteAppointment} />
     </div>
   );
