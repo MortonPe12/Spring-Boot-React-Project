@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15
+    container_name: pet-postgres
+    environment:
+      POSTGRES_DB: petdb
+      POSTGRES_USER: petuser
+      POSTGRES_PASSWORD: petpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: pet-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/petdb
+      SPRING_DATASOURCE_USERNAME: petuser
+      SPRING_DATASOURCE_PASSWORD: petpass
+
+volumes:
+  db-data:
