@@ -1,21 +1,24 @@
-# Use a lightweight JDK base image
-FROM eclipse-temurin:17-jdk-alpine
-
-# Set working directory inside container
+# Stage 1: Build the application
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
 WORKDIR /app
 
-# Copy Maven build files
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
+# Copy pom.xml and download dependencies (layer caching)
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Download dependencies (cached unless pom.xml changes)
-RUN ./mvnw dependency:go-offline
+# Copy source code and build jar
+COPY src ./src
+RUN mvn package -DskipTests
 
-# Copy source code
-COPY src src
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
 
-# Package the application
-RUN ./mvnw package -DskipTests
+# Copy the built jar from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose port 8080
+EXPOSE 8080
 
 # Run the jar
-ENTRYPOINT ["java", "-jar", "target/petboarding-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
