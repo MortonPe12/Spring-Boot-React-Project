@@ -19,7 +19,7 @@ function App() {
   // Fetch all appointments from backend
   const fetchAppointments = async () => {
     try {
-      const response = await fetch("http://3.144.149.119:8080/appointments");
+      const response = await fetch(`${API_BASE_URL}/appointments`);
       const data = await response.json();
       setAppointments(data);
     } catch (error) {
@@ -35,7 +35,7 @@ function App() {
   // Add appointment (called from form)
   const addAppointment = async (appointment) => {
     try {
-      const response = await fetch("http://3.144.149.119:8080/appointments", {
+      const response = await fetch(`${API_BASE_URL}:8080/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointment),
@@ -50,7 +50,7 @@ function App() {
   // Delete appointment
   const deleteAppointment = async (id) => {
     try {
-      await fetch(`http://3.144.149.119:8080/appointments/${id}`, {
+      await fetch(`${API_BASE_URL}/appointments/${id}`, {
         method: "DELETE",
       });
       setAppointments(appointments.filter((appt) => appt.id !== id));
