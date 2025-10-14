@@ -35,7 +35,7 @@ function App() {
   // Add appointment (called from form)
   const addAppointment = async (appointment) => {
     try {
-      const response = await fetch(`${API_BASE_URL}:8080/appointments`, {
+      const response = await fetch(`${API_BASE_URL}/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointment),
@@ -59,11 +59,35 @@ function App() {
     }
   };
 
+  // Update appointment
+  const updateAppointment = async (id, updatedData) => {
+    try {
+      console.log("Updating appointment ID:", id);
+      console.log("Payload:", JSON.stringify(updatedData));
+
+      const response = await fetch(`${API_BASE_URL}/appointments/${id}`, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(updatedData),
+      });
+      if (response.ok) {
+        const updatedAppt = await response.json();
+        setAppointments(
+          appointments.map((appt) =>
+            appt.id === id ? updatedAppt : appt
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating appointment:", error);
+    }
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Pet Boarding Appointments</h1>
       <AppointmentForm onAdd={addAppointment} />
-      <AppointmentList appointments={appointments} onDelete={deleteAppointment} />
+      <AppointmentList appointments={appointments} onDelete={deleteAppointment} onUpdate={updateAppointment}/>
     </div>
   );
 

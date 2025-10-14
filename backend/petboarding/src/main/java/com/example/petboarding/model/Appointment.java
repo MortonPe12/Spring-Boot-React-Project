@@ -3,6 +3,8 @@ package com.example.petboarding.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Appointment {
     
@@ -11,7 +13,11 @@ public class Appointment {
     private Long id;
 
     private String petName;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @Column(length = 1000)
