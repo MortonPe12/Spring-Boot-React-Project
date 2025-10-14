@@ -32,7 +32,8 @@ public class AppointmentController {
         return appointmentService.updateAppointmentDates(
                 id,
                 updatedAppointment.getStartDate(),
-                updatedAppointment.getEndDate()
+                updatedAppointment.getEndDate(),
+                updatedAppointment.getCaretakingNotes()
         )
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());

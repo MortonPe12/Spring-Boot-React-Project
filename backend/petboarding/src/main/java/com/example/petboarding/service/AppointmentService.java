@@ -23,13 +23,14 @@ public class AppointmentService {
     }
 
     // update appointment dates
-    public Optional<Appointment> updateAppointmentDates(Long id, LocalDate newStart, LocalDate newEnd) {
+    public Optional<Appointment> updateAppointmentDates(Long id, LocalDate newStart, LocalDate newEnd, String newNotes) {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
 
         if (optionalAppointment.isPresent()) {
             Appointment appointment = optionalAppointment.get();
             appointment.setStartDate(newStart);
             appointment.setEndDate(newEnd);
+            appointment.setCaretakingNotes(newNotes);
             appointmentRepository.save(appointment);
             return Optional.of(appointment);
         }
