@@ -28,13 +28,15 @@ public class AppointmentController {
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointmentDates(
             @PathVariable Long id,
-            @RequestParam String startDate,
-            @RequestParam String endDate) {
-        return appointmentService.updateAppointmentDates(id, startDate, endDate)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+            @RequestBody Appointment updatedAppointment) {
+        return appointmentService.updateAppointmentDates(
+                id,
+                updatedAppointment.getStartDate(),
+                updatedAppointment.getEndDate()
+        )
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
     }
-
     // view single appointment
     @GetMapping("/{id}")
     public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {

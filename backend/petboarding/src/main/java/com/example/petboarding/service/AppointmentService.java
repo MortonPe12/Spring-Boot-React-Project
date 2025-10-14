@@ -4,6 +4,7 @@ import com.example.petboarding.model.Appointment;
 import com.example.petboarding.repository.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +23,13 @@ public class AppointmentService {
     }
 
     // update appointment dates
-    public Optional<Appointment> updateAppointmentDates(Long id, String newStart, String newEnd) {
+    public Optional<Appointment> updateAppointmentDates(Long id, LocalDate newStart, LocalDate newEnd) {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
 
         if (optionalAppointment.isPresent()) {
             Appointment appointment = optionalAppointment.get();
-            appointment.setStartDate(java.time.LocalDate.parse(newStart));
-            appointment.setEndDate(java.time.LocalDate.parse(newEnd));
+            appointment.setStartDate(newStart);
+            appointment.setEndDate(newEnd);
             appointmentRepository.save(appointment);
             return Optional.of(appointment);
         }
