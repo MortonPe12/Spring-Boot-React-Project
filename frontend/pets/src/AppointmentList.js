@@ -47,11 +47,13 @@ function AppointmentList({appointments, onDelete, onUpdate}) {
                     onChange={handleChange}
                     placeholder="Pet Name"
                     required
+                    disabled
                   />
                   <input
                     type="date"
                     name="startDate"
                     value={formData.startDate}
+                    min="today"
                     onChange={handleChange}
                     required
                   />
@@ -59,6 +61,7 @@ function AppointmentList({appointments, onDelete, onUpdate}) {
                     type="date"
                     name="endDate"
                     value={formData.endDate}
+                    min="today"
                     onChange={handleChange}
                     required
                   />

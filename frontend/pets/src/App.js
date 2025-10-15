@@ -62,9 +62,6 @@ function App() {
   // Update appointment
   const updateAppointment = async (id, updatedData) => {
     try {
-      console.log("Updating appointment ID:", id);
-      console.log("Payload:", JSON.stringify(updatedData));
-
       const response = await fetch(`${API_BASE_URL}/appointments/${id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
